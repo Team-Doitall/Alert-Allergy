@@ -29,6 +29,41 @@ An health application that allows users to determine potential allergens in prod
 - Log of product search history
 - Alternatives of food choices
 - Daily fun fact about allergy notification
+- 911 call button
 
-##2. 
+## **2. Screens** 
+- Login
+- Register - User signs up or logs into their account
+  > Upon Download/Reopening of the application, the user is prompted to log in to gain access to their profile information.
+- Profile Screen
+  > Upon on the profile screen, users will select their allergies.
+- Product Search Screen
+  > Allows user to enter prodcuts and view allergens listed in the ingredients.
+  > List of Icons show if the user can consume the product (Can eat, Limit this, Avoid)
+- Products to Avoid
+  > Where the User places all of the products that are detrimental to health
+- Settings Screen
+  > Lets people change language,display preferences, and app notification settings.
+  >
+
+## **3. Navigation** 
+### *Tab Navigation** (Tab to Screen) 
+- Profile
+- Search
+- Setting
+- Products
+
+### Optional: 
+- Product Alternatives
+- Bar Code Scanner
+
+## **Flow Navigation** (Screen to Screen) 
+- Forced Log-in -> Account creation if no log in is available
+- Allergy Selection -> Jumps to Search Bar
+- Profile -> Jumps to ingredient search bar
+- Settings -> Toggle settings
+
+# Wireframes 
+
+  
   
