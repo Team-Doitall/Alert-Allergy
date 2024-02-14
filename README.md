@@ -79,58 +79,36 @@ An health application that allows users to determine potential allergens in prod
 ### Networking
 #### List of network requests by screen
 User Screen 
-
 Endpoints: 
-
-GET /users/{userId} - Get details of a specific user. 
-
-POST /users - Create a new user. 
-
-PUT /users/{userId} - Update user details, including allergy profile. 
-
-DELETE /users/{userId} - Delete a user. 
+- **GET /users/{userId}** - Get details of a specific user. 
+- **POST /users** - Create a new user. 
+- **PUT /users/{userId}** - Update user details, including allergy profile. 
+- **DELETE /users/{userId}** - Delete a user. 
 
 Authentication Screen 
+Endpoints: 
+- **POST /login** - User login. 
+- **POST /register** - User registration. 
+- **POST /logout** - User logout. 
 
+Product Screen
+Endpoints: 
+- **GET /products** - Search for products based on query parameters (name, barcode). 
+- **GET /products/{productId}** - Get details of a specific product, including allergen information. 
+
+Product Search Screen 
 Endpoints: 
 
-POST /login - User login. 
-
-POST /register - User registration. 
-
-POST /logout - User logout. 
-
-Product Screen 
-
-Endpoints: 
-
-GET /products - Search for products based on query parameters (e.g., name, barcode). 
-
-GET /products/{productId} - Get details of a specific product, including allergen information. 
-
-UserProductSearch Screen 
-
-Endpoints: 
-
-POST /user-product-searches - Log a new product search for a user, including allergen match results. 
-
-GET /user-product-searches/{userId} - Retrieve the history of product searches for a specific user. 
-
+- **POST /user-product-searches** - Log a new product search for a user, including allergen match results. 
+- **GET /user-product-searches/{userId}** - Retrieve the history of product searches for a specific user. 
 Settings Screen 
-
 Endpoints: 
-
-GET /settings/{userId} - Get the settings for a specific user. 
-
-PUT /settings/{userId} - Update settings for a specific user, including language and notification preferences. 
-
+- **GET /settings/{userId}** - Get the settings for a specific user. 
+- **PUT /settings/{userId}** - Update settings for a specific user, including language and notification preferences. 
 AllergyProfile Screen 
-
 Endpoints: 
-
-GET /allergy-profiles/{userId} - Get allergy profile for a specific user. 
-
-POST /allergy-profiles/{userId} - Create or update the allergy profile for a user. 
+- **GET /allergy-profiles/{userId}** - Get allergy profile for a specific user. 
+- **POST /allergy-profiles/{userId}** - Create or update the allergy profile for a user. 
 
 
  
