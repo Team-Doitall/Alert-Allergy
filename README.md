@@ -76,6 +76,10 @@ An health application that allows users to determine potential allergens in prod
 ### Post 
 [Coote-Projects.pdf](https://github.com/Team-Doitall/Alert-Allergy/files/14215500/Coote-Projects.pdf)
 
+### Networking
+#### List of network requests by screen
+   - Home Feed Screen
+
 
  
 
