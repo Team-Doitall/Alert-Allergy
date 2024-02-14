@@ -108,7 +108,17 @@ Endpoints:
 AllergyProfile Screen 
 Endpoints: 
 - **GET /allergy-profiles/{userId}** - Get allergy profile for a specific user. 
-- **POST /allergy-profiles/{userId}** - Create or update the allergy profile for a user. 
+- **POST /allergy-profiles/{userId}** - Create or update the allergy profile for a user.
+
+#### [IF EXISTS:] Existing API Endpoints
+##### An API of InstaCart
+- Base URL [https://docs.instacart.com/connect/api/#:~:text=You%20can%20use%20the%20Instacart,%2C%20response%20codes%2C%20and%20authentication.]
+
+##### An API of MealMe 
+- Base URL [https://www.mealme.ai/data?gad_source=1&gclid=Cj0KCQiA5rGuBhCnARIsAN11vgRpmzVt5J5SnLHhtzm424IRg_d6Nw5awoqvDp_q-yFzOHHrP9OM8_EaApXmEALw_wcB]
+
+##### An API of HealthIntnet
+[https://docs.healtheintent.com/api/v1/allergy/#allergy-api-v1]
 
 
  
