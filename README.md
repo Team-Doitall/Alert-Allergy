@@ -131,14 +131,12 @@ HTTP Verb | Endpoint | Description
 
 HTTP Verb | Endpoint | Description
    ----------|----------|------------
-    `GET`    | /orders/{order_id} | Retrieve details about a specific order identified by order id
-    `POST`    | /batches/{batch_id}/acknowledge | Acknowledge a batch with the specified batch_id.
-    `GET`    | /batches/{batch_id}  | Retireve details about a specific batch identified by batch_id
-    `POST`    | /orders/{order_id}/acknowledge | Acknowledge an order with the specified order_id
-    'GET'    |  /orders/ | Retrieve a list of orders along with their details 
-    'POST'  | /deliveries/{delivery_id}/confirm  | Confirm the delivery associated with teh given 'delivery_id'.
-    'GET'   | /deliveries/{deliveries_id} | Retrieve details about a specific delivery identified by 'delivery_id'.
-
+    
+    `GET`    | /populations/{population_id} | Identifier of the population
+    `GET`    | /patients/(patientId} | identifier of the patient
+    'GET'   | /allergies{allergyId} | Id that uniquely identfies the allergy for the patient  
+    '
+   
  
 
 
