@@ -113,13 +113,31 @@ Endpoints:
 #### [IF EXISTS:] Existing API Endpoints
 ##### An API of InstaCart
 - Base URL [https://docs.instacart.com/connect/api/#:~:text=You%20can%20use%20the%20Instacart,%2C%20response%20codes%2C%20and%20authentication.]
-
+HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /orders/{order_id} | Retrieve details about a specific order identified by order id
+    `POST`    | /batches/{batch_id}/acknowledge | Acknowledge a batch with the specified batch_id.
+    `GET`    | /batches/{batch_id}  | Retireve details about a specific batch identified by batch_id
+    `POST`    | /orders/{order_id}/acknowledge | Acknowledge an order with the specified order_id
+    'GET'    |  /orders/ | Retrieve a list of orders along with their details 
+    'POST'  | /deliveries/{delivery_id}/confirm  | Confirm the delivery associated with teh given 'delivery_id'.
+    'GET'   | /deliveries/{deliveries_id} | Retrieve details about a specific delivery identified by 'delivery_id'.
+    
 ##### An API of MealMe 
 - Base URL [https://www.mealme.ai/data?gad_source=1&gclid=Cj0KCQiA5rGuBhCnARIsAN11vgRpmzVt5J5SnLHhtzm424IRg_d6Nw5awoqvDp_q-yFzOHHrP9OM8_EaApXmEALw_wcB]
 
 ##### An API of HealthIntnet
 [https://docs.healtheintent.com/api/v1/allergy/#allergy-api-v1]
 
+HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /orders/{order_id} | Retrieve details about a specific order identified by order id
+    `POST`    | /batches/{batch_id}/acknowledge | Acknowledge a batch with the specified batch_id.
+    `GET`    | /batches/{batch_id}  | Retireve details about a specific batch identified by batch_id
+    `POST`    | /orders/{order_id}/acknowledge | Acknowledge an order with the specified order_id
+    'GET'    |  /orders/ | Retrieve a list of orders along with their details 
+    'POST'  | /deliveries/{delivery_id}/confirm  | Confirm the delivery associated with teh given 'delivery_id'.
+    'GET'   | /deliveries/{deliveries_id} | Retrieve details about a specific delivery identified by 'delivery_id'.
 
  
 
