@@ -134,7 +134,7 @@ HTTP Verb | Endpoint | Description
     
     `GET`    | /populations/{population_id} | Identifier of the population
     `GET`    | /patients/(patientId} | identifier of the patient
-    'GET'   | /allergies{allergyId} | Id that uniquely identfies the allergy for the patient  
+    'GET'   | /allergies/{allergyId} | Id that uniquely identfies the allergy for the patient  
     '
    
  
