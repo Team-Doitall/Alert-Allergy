@@ -122,19 +122,17 @@ HTTP Verb | Endpoint | Description
     'GET'    |  /orders/ | Retrieve a list of orders along with their details 
     'POST'  | /deliveries/{delivery_id}/confirm  | Confirm the delivery associated with the given 'delivery_id'.
     'GET'   | /deliveries/{deliveries_id} | Retrieve details about a specific delivery identified by 'delivery_id'.
-    
-##### An API of MealMe 
-- Base URL [https://www.mealme.ai/data?gad_source=1&gclid=Cj0KCQiA5rGuBhCnARIsAN11vgRpmzVt5J5SnLHhtzm424IRg_d6Nw5awoqvDp_q-yFzOHHrP9OM8_EaApXmEALw_wcB]
 
 ##### An API of HealthIntnet
 - Base URL [https://docs.healtheintent.com/api/v1/allergy/#allergy-api-v1]
-
+  
 HTTP Verb | Endpoint | Description
-   ----------|----------|------------
+----------|----------|------------
      'GET'   | /populations/{population_id} | Identifier of the population
     'GET'    | /patients/(patientId} | identifier of the patient
     'GET'   | /allergies/{allergyId} | Id that uniquely identfies the allergy for the patient  
-   
+    
+
  
 
 
