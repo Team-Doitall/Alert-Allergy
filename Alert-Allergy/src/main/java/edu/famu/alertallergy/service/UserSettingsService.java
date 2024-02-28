@@ -6,8 +6,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.alertallergy.models.UserSettings;
-import edu.famu.alertallergy.models.Users;
+import edu.famu.alertallergy.models.UsersSettings.UserSettings;
 
 import java.util.ArrayList;
 import java.util.Date;
