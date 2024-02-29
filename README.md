@@ -135,7 +135,8 @@ HTTP Verb | Endpoint | Description
 
 ##### GIFs 
 - 
-    
+    ![Alert-Allergy](https://github.com/Team-Doitall/Alert-Allergy/assets/103546272/c3dad457-f31a-4cfd-8dfe-3e8fa7bec10c)
+
 
  
 
