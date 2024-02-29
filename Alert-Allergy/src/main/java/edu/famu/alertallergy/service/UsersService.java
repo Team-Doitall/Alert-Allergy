@@ -16,9 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class UsersService {
     private Firestore firestore;
 
-    public UsersService() {
-        this.firestore = FirestoreClient.getFirestore();
-    }
+    public UsersService() {this.firestore = FirestoreClient.getFirestore();}
 
     public Users documentSnapshotToUsers(DocumentSnapshot document) {
         Users users = null;

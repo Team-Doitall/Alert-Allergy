@@ -1,5 +1,6 @@
 package edu.famu.alertallergy.models.Users;
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,10 @@ import java.util.Date;
         protected Date updatedAt;
 
 
+
+
+
+        /*
         public void setUsername(String username){
             if (username == null || username.isEmpty()) {
                 throw new IllegalArgumentException("Username required.");
@@ -42,5 +47,6 @@ import java.util.Date;
             }
             this.email = email;
         }
+        */
 
     }

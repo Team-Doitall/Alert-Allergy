@@ -1,22 +1,26 @@
+/*
 package edu.famu.alertallergy.models.Product;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.protobuf.util.Timestamps;
-import org.springframework.lang.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class AProduct {
     @DocumentId
-    private @Nullable String objectId;
+    private @Nullable String productId;
     private String productName;
     private String ingredients;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private @Nullable Timestamp updatedAt;
+
 
     public AProduct(@Nullable String objectId, String productName, String ingredients, Timestamp createdAt, Timestamp updatedAt)
     {
@@ -26,6 +30,7 @@ public abstract class AProduct {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
     public void setCreatedAt(String createdAt) throws ParseException {
         this.createdAt  = Timestamp.fromProto(Timestamps.parse(createdAt));
     }
@@ -34,3 +39,4 @@ public abstract class AProduct {
         this.updatedAt = Timestamp.fromProto(Timestamps.parse(updatedAt));
     }
 }
+*/
