@@ -26,4 +26,6 @@ public class UserProductSearch extends AUserProductSearch {
         this.user = user;
         this.product = product;
     }
+
+
 }

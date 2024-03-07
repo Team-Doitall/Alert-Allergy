@@ -5,8 +5,6 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.alertallergy.models.Users.Users;
-import lombok.extern.java.Log;
-import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,9 +14,12 @@ import java.util.concurrent.ExecutionException;
 public class UsersService {
     private Firestore firestore = FirestoreClient.getFirestore();
 
-    private final Log logger = (Log) LogFactory.getLog(this.getClass());
+    public UsersService() {
+        this.firestore = FirestoreClient.getFirestore();
+    }
 
     public ArrayList<Users> getUsers() throws ExecutionException, InterruptedException{
+
         Query query = firestore.collection("User");
         ApiFuture<QuerySnapshot> future = query.get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -28,15 +29,6 @@ public class UsersService {
         {
             users.add(doc.toObject(Users.class));
         }
-
-        return users;
-    }
-    public Users getUsers(String userId) throws ExecutionException, InterruptedException{
-        Users users = null;
-
-        DocumentReference doc = firestore.collection("User").document(userId);
-        ApiFuture<DocumentSnapshot> future = doc.get();
-        users = future.get().toObject(Users.class);
 
         return users;
     }
