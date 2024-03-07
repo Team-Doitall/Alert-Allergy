@@ -138,6 +138,12 @@ HTTP Verb | Endpoint | Description
     ![Alert-Allergy](https://github.com/Team-Doitall/Alert-Allergy/assets/103546272/c3dad457-f31a-4cfd-8dfe-3e8fa7bec10c)
 
 
+####MILESTONE 4 GIF
+
+![Alert-Allergy](https://github.com/Team-Doitall/Alert-Allergy/assets/103546272/3d411897-a4d1-4c7c-aef1-3d92a3368b84)
+- We have completed the Services and Controllers for our project. As well as the Utility packages such as ApiResponse, ErrorMessage, ResponseWrap, and WebConfig. We will be building our screens on the next sprint to ensure that our GET controllers are working. We will also be working on the frontend development and implementing authentication for users.
+
+
  
 
 
