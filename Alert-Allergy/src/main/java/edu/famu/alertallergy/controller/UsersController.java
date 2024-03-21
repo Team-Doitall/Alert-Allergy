@@ -3,6 +3,7 @@ package edu.famu.alertallergy.controller;
 import com.google.cloud.firestore.DocumentReference;
 import edu.famu.alertallergy.models.Users.Users;
 import edu.famu.alertallergy.service.UsersService;
+import edu.famu.alertallergy.util.ErrorMessage;
 import edu.famu.alertallergy.util.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
