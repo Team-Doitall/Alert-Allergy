@@ -1,68 +1,43 @@
-package edu.famu.alertallergy.controller;
-
-import edu.famu.alertallergy.models.Admin;
-import edu.famu.alertallergy.service.AdminService;
-import edu.famu.alertallergy.util.ErrorMessage;
-import edu.famu.alertallergy.util.ResponseWrapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.ExecutionException;
-
 @RestController
-@RequestMapping("/admins")
+@RequestMapping("/api/admins")
+
 public class AdminController {
 
-    AdminService adminService;
+    private final AdminService adminService;
 
-    @Value("${response.status}")
-    private int statusCode;
-
-    @Value("${response.name}")
-    private String name;
-    private Object payload;
-    private ResponseWrapper response;
-    private static final String CLASS_NAME = "CategoryService";
-
-    //@Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        payload = null;
     }
 
-    @GetMapping
-    public ResponseEntity List<Admin> getAllAdmins() {
+    @GetMapping("/")
+    public ResponseEntity<ApiResponseFormat<List<Admin>>> getAllAdmin() {
         try {
-            payload = adminService.getAllAdmins();
-            statusCode = 200;
-            name = "admin";
+            AdminService adminService = new AdminService();
+            List<Admin> adminList = adminService.getAllAdmins();
+            return ResponseEntity.ok(new ApiResponseFormat<>(true, "Admins retrieved successfully", adminList,null));
         } catch (ExecutionException | InterruptedException e) {
-            payload = new ErrorMessage("Cannot fetch admins from database.", CLASS_NAME, e.toString());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Error retrieving users", null,e));
         }
-        response = new ResponseWrapper(statusCode,name,payload);
-
     }
 
-    @GetMapping("/{adminId}")
-    public ResponseEntity<ResponseWrapper<Admin>> getAdminById(@PathVariable String adminId) {
-        ResponseWrapper<Admin> response;
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseFormat<List<Admin>>> getAdminById(String adminId) {
         try {
             Admin admin = adminService.getAdminById(adminId);
-            if (admin != null) {
-                response = new ResponseWrapper<>(HttpStatus.OK.value(), name, admin);
-                return ResponseEntity.ok(response);
+            if(admin != null)
+            {
+                return ResponseEntity.ok(new ApiResponseFormat<>(true, "Users retrieved successfully", admin,null));
             } else {
-                response = new ResponseWrapper<>(HttpStatus.NOT_FOUND.value(), name, null);
-                response.setError(new ErrorMessage("Admin not found with ID: " + adminId));
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponseFormat<>(false, "Users not found", null,null));
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
-            response = new ResponseWrapper<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), name, null);
-            response.setError(new ErrorMessage("Error occurred while fetching admin with ID: " + adminId, e.getMessage()));
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        } catch (ExecutionException | InterruptedException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Error retrieving user", null,e));
+
         }
     }
+}
+
 
