@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public abstract class AUserProductSearch {
     @DocumentId
-    private @Nullable String searchId; // Unique ID for the search instance
-    private Timestamp searchDate; // Date when the search was conducted
-    private ArrayList<String> allergenMatch;
-    private boolean canConsume;
-    private @Nullable Timestamp createdAt;
-    private @Nullable Timestamp updatedAt;
+    protected @Nullable String searchId; // Unique ID for the search instance
+    protected Timestamp searchDate; // Date when the search was conducted
+    protected ArrayList<String> allergenMatch;
+    protected boolean canConsume;
+    protected @Nullable Timestamp createdAt;
+    protected @Nullable Timestamp updatedAt;
 
 
     public void setCreatedAt(String createdAt) throws ParseException, java.text.ParseException {
