@@ -1,3 +1,5 @@
 package edu.famu.alertallergy.util;
 
-public record ApiResponse<T>(boolean success, String message, Object data, Object error) {}
+public record ApiResponseFormat<T extends Object>(boolean success, String message, Object data, Object error) {
+
+}
