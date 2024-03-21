@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class UserProductSearchService {
 
-    private Firestore firestore;
+    private final Firestore firestore;
 
     public UserProductSearchService() {
         this.firestore = FirestoreClient.getFirestore();
