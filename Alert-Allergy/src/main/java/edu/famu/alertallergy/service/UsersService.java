@@ -1,24 +1,83 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.Timestamp;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.alertallergy.models.Users.Users;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class UsersService {
-    private Firestore firestore;
+    private Firestore firestore = FirestoreClient.getFirestore();
 
     public UsersService() {
         this.firestore = FirestoreClient.getFirestore();
     }
+
+    public ArrayList<Users> getUsers() throws ExecutionException, InterruptedException{
+
+        Query query = firestore.collection("User");
+        ApiFuture<QuerySnapshot> future = query.get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        ArrayList<Users> users = documents.size() > 0 ? new ArrayList<>() : null;
+        for(QueryDocumentSnapshot doc : documents)
+        {
+            users.add(doc.toObject(Users.class));
+        }
+
+        return users;
+    }
+
+    public String createUsers(Users users) throws ExecutionException, InterruptedException {
+        String userId = null;
+        users.setCreatedAt(Timestamp.now());
+
+        ApiFuture<DocumentReference> future = firestore.collection("User").add(users);
+        DocumentReference userRef = future.get();
+        userId = userRef.getId();
+
+        return userId;
+    }
+
+    public void updateUsers(String id, Map<String, String> updateValues){
+
+        String [] allowed = {"username", "password", "email", "allergies"};
+        List<String> list = Arrays.asList(allowed);
+        Map<String, Object> formattedValues = new HashMap<>();
+
+        for(Map.Entry<String, String> entry : updateValues.entrySet()) {
+            String key = entry.getKey();
+            if(list.contains(key))
+                formattedValues.put(key, entry.getValue());
+        }
+
+        DocumentReference userDoc = firestore.collection("User").document(id);
+        userDoc.update(formattedValues);
+    }
+
+    public Users getUser(DocumentReference userRef) throws ExecutionException, InterruptedException {
+        ApiFuture<DocumentSnapshot> userQuery = userRef.get();
+        DocumentSnapshot userDoc = userQuery.get();
+        return userDoc.toObject(Users.class);
+    }
+
+
+
+}
+
+
+
+
+/*
+public class UsersService {
+    private Firestore firestore;
+
+    public UsersService() {this.firestore = FirestoreClient.getFirestore();}
 
     public Users documentSnapshotToUsers(DocumentSnapshot document) {
         Users users = null;
@@ -57,3 +116,4 @@ public class UsersService {
         return documentSnapshotToUsers(document);
     }
 }
+ */

@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor //creates no argument constructor automatically
 public class Product {
     @DocumentId
-    private @Nullable String objectId;
+    private @Nullable String productId;
     private String productName;
     private String ingredients;
     private ArrayList<String> allergenWarnings;

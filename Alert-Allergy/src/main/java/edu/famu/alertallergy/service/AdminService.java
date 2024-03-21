@@ -6,7 +6,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.alertallergy.models.Admin.Admin;
+import edu.famu.alertallergy.models.Admin;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
