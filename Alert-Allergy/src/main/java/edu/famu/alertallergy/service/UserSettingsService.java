@@ -27,8 +27,8 @@ public class UserSettingsService {
             String settingId = document.getId();
             String userId = document.getString("userId");
             String language = document.getString("language");
-            Map<String, Object> notificationPreferences = document.contains("notificationPreferences") ? document.getData().get("notificationPreferences") : null;
-            Map<String, Object> displayPreferences = document.contains("displayPreferences") ? document.getData().get("displayPreferences") : null;
+            Map<String, Object> notificationPreferences = document.contains("notificationPreferences") ? (Map<String, Object>) document.getData().get("notificationPreferences") : null;
+            Map<String, Object> displayPreferences = document.contains("displayPreferences") ? (Map<String, Object>) document.getData().get("displayPreferences") : null;
             Timestamp createdAt = document.contains("createdAt") ? document.getTimestamp("createdAt") : null;
             Timestamp updatedAt = document.contains("updatedAt") ? document.getTimestamp("updatedAt") : null;
             Users user = document.contains("user") ? document.toObject(Users.class) : null;
@@ -66,6 +66,12 @@ public class UserSettingsService {
 
     public void deleteUserSettings(String settingId) {
         firestore.collection("UserSettings").document(settingId).delete();
+    }
+    public UserSettings createUserSettings(UserSettings userSettings) {
+        DocumentReference docRef = firestore.collection("UserSettings").document();
+        userSettings.setSettingId(docRef.getId()); // Set the settingId to the generated Firestore document ID
+        docRef.set(userSettings); // Add the userSettings to Firestore
+        return userSettings;
     }
 }
 

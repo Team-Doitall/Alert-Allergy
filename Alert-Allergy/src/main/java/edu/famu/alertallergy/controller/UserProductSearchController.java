@@ -23,48 +23,64 @@ public class UserProductSearchController {
     @GetMapping("/")
     public ResponseEntity<ApiResponseFormat<List<UserProductSearch>>> getAllUserProductSearches() {
         try {
-            UserProductSearchService userProductSearchService = new UserProductSearchService();
             List<UserProductSearch> uspsList = userProductSearchService.getAllUserProductSearches();
-            return ResponseEntity.ok(new ApiResponseFormat<>(true, "Users product search retrieve", uspsList,null));
+            return ResponseEntity.ok(new ApiResponseFormat<>(true, "Users product search retrieved", uspsList, null));
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponseFormat<>(false, "Error retrieving users", null,e));
+                    .body(new ApiResponseFormat<>(false, "Error retrieving users", null, e.getMessage()));
         }
-
     }
 
-    /*
+    @GetMapping("/{searchId}")
+    public ResponseEntity<ApiResponseFormat<UserProductSearch>> getUserProductSearchById(@PathVariable String searchId) {
+        try {
+            UserProductSearch userProductSearch = userProductSearchService.getUserProductSearchById(searchId);
+            if (userProductSearch != null) {
+                return ResponseEntity.ok(new ApiResponseFormat<>(true, "Success", userProductSearch, null));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponseFormat<>(false, "Product not Found", null, null));
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Error retrieving User Product Search", null, e.getMessage()));
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<ApiResponseFormat<String>> createUserProductSearch(@RequestBody UserProductSearch userProductSearch) {
         try {
             userProductSearchService.addUserProductSearch(userProductSearch);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper<>(HttpStatus.CREATED.value(), "message", "User product search created successfully"));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponseFormat<>(true, "User product search created successfully", null, null));
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception for debugging
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseWrapper<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error", "Failed to create user product search"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Failed to create user product search", null, e.getMessage()));
         }
     }
-*/
+
     @PutMapping("/{searchId}")
-    public ResponseEntity<ResponseWrapper<String>> updateUserProductSearch(@PathVariable String searchId, @RequestBody UserProductSearch userProductSearch) {
+    public ResponseEntity<ApiResponseFormat<String>> updateUserProductSearch(@PathVariable String searchId, @RequestBody UserProductSearch userProductSearch) {
         try {
             userProductSearchService.updateUserProductSearch(searchId, userProductSearch);
-            return ResponseEntity.ok(new ResponseWrapper<>(HttpStatus.OK.value(), "message", "User product search updated successfully"));
+            return ResponseEntity.ok(new ApiResponseFormat<>(true, "User product search updated successfully", null, null));
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception for debugging
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseWrapper<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error", "Failed to update user product search"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Failed to update user product search", null, e.getMessage()));
         }
     }
 
     @DeleteMapping("/{searchId}")
-    public ResponseEntity<ResponseWrapper<String>> deleteUserProductSearch(@PathVariable String searchId) {
+    public ResponseEntity<ApiResponseFormat<String>> deleteUserProductSearch(@PathVariable String searchId) {
         try {
             userProductSearchService.deleteUserProductSearch(searchId);
-            return ResponseEntity.ok(new ResponseWrapper<>(HttpStatus.OK.value(), "message", "User product search deleted successfully"));
+            return ResponseEntity.ok(new ApiResponseFormat<>(true, "User product search deleted successfully", null, null));
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception for debugging
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseWrapper<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error", "Failed to delete user product search"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponseFormat<>(false, "Failed to delete user product search", null, e.getMessage()));
         }
     }
-}
 }

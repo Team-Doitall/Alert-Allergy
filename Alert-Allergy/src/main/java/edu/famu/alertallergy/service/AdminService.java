@@ -1,10 +1,7 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.alertallergy.models.Admin;
 import org.springframework.stereotype.Service;
@@ -12,11 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class AdminService {
-    private Firestore firestore;
+    private final Firestore firestore;
 
     public AdminService() {
         this.firestore = FirestoreClient.getFirestore();
@@ -34,8 +32,8 @@ public class AdminService {
 
             ArrayList<String> permissions = (ArrayList<String>) document.get("permissions");
 
-            Date createdAt = document.getTimestamp("createdAt").toDate();
-            Date updatedAt = document.getTimestamp("updatedAt").toDate();
+            Date createdAt = Objects.requireNonNull(document.getTimestamp("createdAt")).toDate();
+            Date updatedAt = Objects.requireNonNull(document.getTimestamp("updatedAt")).toDate();
 
             admin = new Admin(id, username, password, email, role, permissions, createdAt, updatedAt);
         }
@@ -60,5 +58,26 @@ public class AdminService {
         ApiFuture<DocumentSnapshot> future = adminCollection.document(adminId).get();
         DocumentSnapshot document = future.get();
         return documentSnapshotToAdmin(document);
+    }
+
+    public Admin createAdmin(Admin admin) {
+        CollectionReference adminCollection = firestore.collection("Admin");
+        DocumentReference docRef = adminCollection.document();
+        admin.setAdminId(docRef.getId()); // Set the adminId to the generated Firestore document ID
+        docRef.set(admin); // Add the admin to Firestore
+        return admin;
+    }
+
+    public Admin updateAdmin(String adminId, Admin updatedAdmin) throws ExecutionException, InterruptedException {
+        CollectionReference adminCollection = firestore.collection("Admin");
+        DocumentReference docRef = adminCollection.document(adminId);
+        ApiFuture<WriteResult> future = docRef.set(updatedAdmin);
+        future.get(); // Wait for the update operation to complete
+        return updatedAdmin;
+    }
+
+    public void deleteAdmin(String adminId) {
+        CollectionReference adminCollection = firestore.collection("Admin");
+        adminCollection.document(adminId).delete();
     }
 }

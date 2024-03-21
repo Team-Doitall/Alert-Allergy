@@ -46,7 +46,7 @@ public class ProductService {
         return documentSnapshotToProduct(document);
     }
 
-    public Product addProduct(Product product) throws ExecutionException, InterruptedException {
+    public Product createProduct(Product product) throws ExecutionException, InterruptedException {
         CollectionReference productCollection = firestore.collection("Product");
         ApiFuture<DocumentReference> future = productCollection.add(product);
         return new Product(future.get().getId(), product.getProductName(), product.getIngredients(), product.getAllergenWarnings(), product.getCreatedAt(), product.getUpdatedAt());
@@ -63,5 +63,4 @@ public class ProductService {
         firestore.collection("Product").document(productId).delete();
     }
 }
-
 
