@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,10 +14,9 @@ import java.util.Date;
 @AllArgsConstructor //creates constructor with all values automatically
 @NoArgsConstructor //creates no argument constructor automatically
 public class Product {
-    @DocumentId
-    private @Nullable String productId;
+    private String productId;
     private String productName;
-    private String ingredients;
+    private ArrayList<String> ingredients;
     private ArrayList<String> allergenWarnings;
     private Date createdAt;
     private Date updatedAt;

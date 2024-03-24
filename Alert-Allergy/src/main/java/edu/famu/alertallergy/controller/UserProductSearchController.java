@@ -1,5 +1,8 @@
 package edu.famu.alertallergy.controller;
 
+import com.google.cloud.Timestamp;
+import com.google.firebase.remoteconfig.User;
+import edu.famu.alertallergy.models.Product.Product;
 import edu.famu.alertallergy.models.UserProductSearch.UserProductSearch;
 import edu.famu.alertallergy.service.UserProductSearchService;
 import edu.famu.alertallergy.util.ApiResponseFormat;
@@ -7,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -48,9 +52,9 @@ public class UserProductSearchController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ApiResponseFormat<String>> createUserProductSearch(@RequestBody UserProductSearch userProductSearch) {
+    public ResponseEntity<ApiResponseFormat<String>> createUserProductSearch(@RequestBody String searchId, Timestamp searchDate, ArrayList<String> allergenMatch, boolean canConsume, Timestamp createdAt, Timestamp updatedAt, User user, Product product) {
         try {
-            userProductSearchService.addUserProductSearch(userProductSearch);
+            userProductSearchService.addUserProductSearch(searchId,searchDate, allergenMatch, canConsume, createdAt, updatedAt, user, product);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ApiResponseFormat<>(true, "User product search created successfully", null, null));
         } catch (Exception e) {

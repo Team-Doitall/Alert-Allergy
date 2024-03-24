@@ -5,7 +5,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.alertallergy.models.UserSettings.UserSettings;
-import edu.famu.alertallergy.models.Users.Users;
+import edu.famu.alertallergy.models.User.Users;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

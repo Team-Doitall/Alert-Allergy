@@ -3,7 +3,7 @@ package edu.famu.alertallergy.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.alertallergy.models.Users.Users;
+import edu.famu.alertallergy.models.User.Users;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

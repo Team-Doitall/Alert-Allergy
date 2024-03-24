@@ -31,10 +31,10 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseFormat<Admin>> getAdminById(@PathVariable String id) {
+    @GetMapping("/{adminId}")
+    public ResponseEntity<ApiResponseFormat<Admin>> getAdminById(@PathVariable String adminId) {
         try {
-            Admin admin = adminService.getAdminById(id);
+            Admin admin = adminService.getAdminById(adminId);
             if (admin != null) {
                 return ResponseEntity.ok(new ApiResponseFormat<>(true, "Admin retrieved successfully", admin, null));
             } else {

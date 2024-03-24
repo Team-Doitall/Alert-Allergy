@@ -1,10 +1,14 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.remoteconfig.User;
+import edu.famu.alertallergy.models.Product.Product;
 import edu.famu.alertallergy.models.UserProductSearch.UserProductSearch;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,8 +23,7 @@ public class UserProductSearchService {
     }
 
     public UserProductSearch documentSnapshotToUserProductSearch(DocumentSnapshot document) {
-        if(document.exists())
-        {
+        if (document.exists()) {
             return document.toObject(UserProductSearch.class);
         }
         return null;
@@ -46,9 +49,10 @@ public class UserProductSearchService {
         return documentSnapshotToUserProductSearch(document);
     }
 
-    public void addUserProductSearch(UserProductSearch userProductSearch) {
+    public void addUserProductSearch(String searchId, Timestamp searchDate, ArrayList<String> allergenMatch, boolean canConsume, Timestamp createdAt, Timestamp updatedAt, User user, Product product) {
+        UserProductSearch userProductSearch = new UserProductSearch(searchId, searchDate, allergenMatch, canConsume, createdAt, updatedAt, user, product);
         CollectionReference userProductSearchCollection = firestore.collection("UserProductSearch");
-        userProductSearchCollection.add(userProductSearch);
+        userProductSearchCollection.document(searchId).set(userProductSearch); // Update to set the document with searchId
     }
 
     public void updateUserProductSearch(String searchId, UserProductSearch updatedUserProductSearch) {
@@ -59,8 +63,8 @@ public class UserProductSearchService {
     public void deleteUserProductSearch(String searchId) {
         firestore.collection("UserProductSearch").document(searchId).delete();
     }
-
 }
+
 
 
 

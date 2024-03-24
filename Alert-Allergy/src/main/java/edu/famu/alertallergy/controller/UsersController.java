@@ -1,12 +1,7 @@
 package edu.famu.alertallergy.controller;
-import edu.famu.alertallergy.models.Users.Users;
+import edu.famu.alertallergy.models.User.Users;
 import edu.famu.alertallergy.service.UsersService;
 import edu.famu.alertallergy.util.ApiResponseFormat;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +43,7 @@ public class UsersController {
         }
     }
 
+    /*
     @Operation(summary = "Get a user by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Users found."),
@@ -56,6 +52,8 @@ public class UsersController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponse.class))),
     })
+
+     */
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseFormat<Users>> getUserById(@PathVariable(name = "id") String userId) {

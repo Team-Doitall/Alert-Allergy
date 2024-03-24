@@ -26,16 +26,6 @@ public abstract class AUserProductSearch {
     protected @Nullable Timestamp updatedAt;
 
 
-    public void setCreatedAt(String createdAt) throws ParseException, java.text.ParseException {
-        this.createdAt = Timestamp.fromProto(Timestamps.parse(createdAt));
-    }
 
-    public void setUpdatedAt(String updatedAt) throws ParseException, java.text.ParseException {
-        this.updatedAt = Timestamp.fromProto(Timestamps.parse(updatedAt));
-    }
 
-    public boolean getConsumed()
-    {
-        return canConsume;
-    }
 }

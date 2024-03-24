@@ -3,7 +3,7 @@ package edu.famu.alertallergy.models.UserSettings;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.firebase.database.annotations.Nullable;
-import edu.famu.alertallergy.models.Users.Users;
+import edu.famu.alertallergy.models.User.Users;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

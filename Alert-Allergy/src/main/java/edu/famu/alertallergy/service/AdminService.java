@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class AdminService {
-    private final Firestore firestore;
+    private Firestore firestore;
 
     public AdminService() {
         this.firestore = FirestoreClient.getFirestore();
@@ -35,7 +35,7 @@ public class AdminService {
             Date createdAt = Objects.requireNonNull(document.getTimestamp("createdAt")).toDate();
             Date updatedAt = Objects.requireNonNull(document.getTimestamp("updatedAt")).toDate();
 
-            admin = new Admin(id, username, password, email, role, permissions, createdAt, updatedAt);
+            return new Admin(id, username, password, email, role, permissions, createdAt, updatedAt);
         }
         return admin;
     }
