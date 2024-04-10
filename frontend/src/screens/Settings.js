@@ -4,15 +4,20 @@ import { useNavigate } from 'react-router-dom';
 function Settings() {
     const navigate = useNavigate();
     const [accountEmail, setAccountEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [gender, setGender] = useState('');
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [visibility, setVisibility] = useState('private');
     const [language, setLanguage] = useState('English');
 
     const handleSaveSettings = (event) => {
         event.preventDefault();
-        console.log('Settings saved with:', { accountEmail, notificationsEnabled, visibility, language });
+        console.log('Settings saved with:', { accountEmail, firstName, lastName, email, dateOfBirth, gender, notificationsEnabled, visibility, language });
         alert('Settings saved successfully!');
-        // navigate('/dashboard'); // Assuming you have a dashboard route to navigate after saving
+        navigate('/search');  // Navigate to dashboard or relevant page
     };
 
     const styles = {
@@ -48,81 +53,80 @@ function Settings() {
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer'
-        },
-        navBar: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: '#f0f0f0',
-            borderTop: '1px solid #ccc',
-            padding: '10px 0'
-        },
-        navButton: {
-            flex: 1,
-            padding: '10px 20px',
-            backgroundColor: '#e7e7e7',
-            border: 'none',
-            outline: 'none',
-            cursor: 'pointer'
         }
     };
 
     return (
-        <>
-            <div style={styles.container}>
-                <h1>Settings</h1>
-                <form onSubmit={handleSaveSettings}>
-                    <input
-                        type="email"
-                        placeholder="Account Email"
-                        value={accountEmail}
-                        onChange={(e) => setAccountEmail(e.target.value)}
-                        style={styles.input}
-                    />
-                    <div>
-                        <label>
-                            Notifications:
-                            <input
-                                type="checkbox"
-                                checked={notificationsEnabled}
-                                onChange={(e) => setNotificationsEnabled(e.target.checked)}
-                            />
-                        </label>
-                    </div>
-                    <select
-                        value={visibility}
-                        onChange={(e) => setVisibility(e.target.value)}
-                        style={styles.select}
-                    >
-                        <option value="private">Private</option>
-                        <option value="public">Public</option>
-                    </select>
-                    <select
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        style={styles.select}
-                    >
-                        <option value="English">English</option>
-                        <option value="Spanish">Spanish</option>
-                        <option value="French">French</option>
-                        {/* Add more languages as needed */}
-                    </select>
-                    <button type="submit" style={styles.button}>Save Settings</button>
-                </form>
-            </div>
-            <div style={styles.navBar}>
-                <button style={styles.navButton} onClick={() => navigate('/search')}>Search</button>
-                <button style={styles.navButton} onClick={() => navigate('/settings')}>Settings</button>
-                <button style={styles.navButton} onClick={() => navigate('/profile')}>Profile</button>
-                <button style={styles.navButton} onClick={() => navigate('/lists')}>Saved</button>
-            </div>
-        </>
+        <div style={styles.container}>
+            <h1>Settings</h1>
+            <form onSubmit={handleSaveSettings}>
+                <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="date"
+                    placeholder="Date of Birth"
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                    style={styles.input}
+                />
+                <input
+                    type="text"
+                    placeholder="Gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    style={styles.input}
+                />
+                <div>
+                    <label>
+                        Notifications:
+                        <input
+                            type="checkbox"
+                            checked={notificationsEnabled}
+                            onChange={(e) => setNotificationsEnabled(e.target.checked)}
+                        />
+                    </label>
+                </div>
+                <select
+                    value={visibility}
+                    onChange={(e) => setVisibility(e.target.value)}
+                    style={styles.select}
+                >
+                    <option value="private">Private</option>
+                    <option value="public">Public</option>
+                </select>
+                <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    style={styles.select}
+                >
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                </select>
+                <button type="submit" style={styles.button}>Save Settings</button>
+            </form>
+        </div>
     );
 }
 
 export default Settings;
-
 
