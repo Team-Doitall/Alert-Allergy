@@ -1,59 +1,66 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.alertallergy.models.Users;
+import edu.famu.alertallergy.models.User.User;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class UsersService {
-    private Firestore firestore;
+    private final Firestore firestore;
 
     public UsersService() {
         this.firestore = FirestoreClient.getFirestore();
     }
 
-    public Users documentSnapshotToUsers(DocumentSnapshot document) {
-        Users users = null;
-        if (document.exists())
-        {
-            String userId = document.getId();
-            String username = document.getString("username");
-            String password = document.getString("password");
-            String email = document.getString("email");
-            ArrayList<String> allergies = (ArrayList<String>) document.get("allergies");
-            Date createdAt = document.getTimestamp("createdAt").toDate();
-            Date updatedAt = document.getTimestamp("updatedAt").toDate();
-
-            users = new Users(userId, username, password, email, allergies,createdAt, updatedAt);
+    public User documentSnapshotToUser(DocumentSnapshot document) {
+        if (document.exists()) {
+            return document.toObject(User.class);
         }
-        return users;
+        return null;
     }
 
-    public List<Users> getAllUsers() throws ExecutionException, InterruptedException {
-        CollectionReference usersCollection = firestore.collection("Users");
-        ApiFuture<QuerySnapshot> future = usersCollection.get();
-        List<Users> usersList = new ArrayList<>();
+    public List<User> getAllUsers() throws ExecutionException, InterruptedException {
+        CollectionReference userCollection = firestore.collection("User");
+        ApiFuture<QuerySnapshot> future = userCollection.get();
+        List<User> userList = new ArrayList<>();
         for (DocumentSnapshot document : future.get().getDocuments()) {
-            Users users = documentSnapshotToUsers(document);
-            if (users != null) {
-                usersList.add(users);
+            User user = documentSnapshotToUser(document);
+            if (user != null) {
+                userList.add(user);
             }
         }
-        return usersList;
+        return userList;
     }
 
-    public Users getUsersById(String usersId) throws ExecutionException, InterruptedException {
-        CollectionReference usersCollection = firestore.collection("Users");
-        ApiFuture<DocumentSnapshot> future = usersCollection.document(usersId).get();
+    public User getUserById(String userId) throws ExecutionException, InterruptedException {
+        CollectionReference userCollection = firestore.collection("Users");
+        ApiFuture<DocumentSnapshot> future = userCollection.document(userId).get();
         DocumentSnapshot document = future.get();
-        return documentSnapshotToUsers(document);
+        return documentSnapshotToUser(document);
+    }
+
+    public User createUser(User user) {
+        DocumentReference docRef = firestore.collection("Users").document();
+        String userId = docRef.getId();
+        user.setUserId(userId);
+        docRef.set(user);
+        return user;
+    }
+
+    public User updateUser(String userId, User updatedUser) throws ExecutionException, InterruptedException {
+        CollectionReference userCollection = firestore.collection("Users");
+        DocumentReference docRef = userCollection.document(userId);
+        ApiFuture<WriteResult> future = docRef.set(updatedUser);
+        future.get();
+        return updatedUser;
+    }
+
+    public void deleteUser(String userId) {
+        firestore.collection("Users").document(userId).delete();
     }
 }

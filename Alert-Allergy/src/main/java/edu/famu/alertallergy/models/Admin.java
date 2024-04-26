@@ -22,4 +22,6 @@ public class Admin {
     protected ArrayList<String> permissions;
     protected Date createdAt;
     protected Date updatedAt;
+
+
 }

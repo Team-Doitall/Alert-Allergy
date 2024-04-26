@@ -1,62 +1,91 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.Timestamp;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.alertallergy.models.UserProductSearch;
-import edu.famu.alertallergy.models.Users;
+import edu.famu.alertallergy.models.User.User;
+import edu.famu.alertallergy.models.Product.Product;
+import edu.famu.alertallergy.models.UserProductSearch.UserProductSearch;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class UserProductSearchService {
-    private Firestore firestore;
+
+    private final Firestore firestore;
 
     public UserProductSearchService() {
         this.firestore = FirestoreClient.getFirestore();
     }
 
-    public UserProductSearchService documentSnapshotToUserProductSearch(DocumentSnapshot document) {
-        UserProductSearch usps = null;
-        if (document.exists())
-        {
-            String searchId = document.getId();
-            String user = new document.getString("user"); //Reference to User
-            String product = document.getString("product"); //Reference to product searched
-            ArrayList<String> allergenMatch = (ArrayList<String>) document.get("allergenMatch");
-            boolean canConsume = Boolean.TRUE.equals(document.getBoolean("false"));
-            Date searchDate = document.getTimestamp("searchDate").toDate();
-            Date createdAt = document.getTimestamp("createdAt").toDate();
-            Date updatedAt = document.getTimestamp("updatedAt").toDate();
 
-            usps = new UserProductSearch(searchId, user, product, allergenMatch, canConsume,searchDate,createdAt, updatedAt);
+    public UserProductSearch documentSnapshotToUserProductSearch(DocumentSnapshot document) {
+        if (document.exists()) {
+            String searchId = document.getId();
+            Timestamp searchDate = document.contains("searchDate") ? document.getTimestamp("searchDate") : null;
+            ArrayList<String> allergenMatch = document.contains("allergenMatch") ? (ArrayList<String>) document.get("allergenMatch") : new ArrayList<>();
+            boolean canConsume = document.contains("canConsume") && document.getBoolean("canConsume");
+            Timestamp createdAt = document.contains("createdAt") ? document.getTimestamp("createdAt") : null;
+            Timestamp updatedAt = document.contains("updatedAt") ? document.getTimestamp("updatedAt") : null;
+            User user = null;
+            Product product = null;
+
+            if(document.contains("user"))
+            {
+                user = document.toObject(User.class);
+            }
+
+            if (document.contains("product")) {
+                product = document.toObject(Product.class);
+            }
+            return new UserProductSearch(searchId, searchDate, allergenMatch, canConsume, createdAt, updatedAt, user, product);
         }
-        return usps;
+        return null;
     }
 
-    public List<UserProductSearch> getAllUserProductSearch() throws ExecutionException, InterruptedException {
-        CollectionReference uspsCollection = firestore.collection("UserProductSearch");
-        ApiFuture<QuerySnapshot> future = uspsCollection.get();
-        List<UserProductSearch> uspsList = new ArrayList<>();
-        for (DocumentSnapshot document : future.get().getDocuments()) {
-            UserProductSearch usps = documentSnapshotToUserProductSearch(document);
-            if (usps != null) {
-                uspsList.add(usps);
+
+
+    public List<UserProductSearch> getAllUserProductSearches() throws ExecutionException, InterruptedException {
+        CollectionReference userProductSearchCollection = firestore.collection("UserProductSearch");
+        ApiFuture<QuerySnapshot> future = userProductSearchCollection.get();
+        List<UserProductSearch> userProductSearchList = new ArrayList<>();
+        for (QueryDocumentSnapshot document : future.get().getDocuments()) {
+            UserProductSearch userProductSearch = documentSnapshotToUserProductSearch(document);
+            if (userProductSearch != null) {
+                userProductSearchList.add(userProductSearch);
             }
         }
-        return uspsList;
+        return userProductSearchList;
     }
 
     public UserProductSearch getUserProductSearchById(String searchId) throws ExecutionException, InterruptedException {
-        CollectionReference uspsCollection = firestore.collection("UserProductSearch");
-        ApiFuture<DocumentSnapshot> future = uspsCollection.document(searchId).get();
+        DocumentReference docRef = firestore.collection("UserProductSearch").document(searchId);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
         return documentSnapshotToUserProductSearch(document);
     }
+
+    public void addUserProductSearch(String searchId, Timestamp searchDate, ArrayList<String> allergenMatch, boolean canConsume, Timestamp createdAt, Timestamp updatedAt, User user, Product product) {
+        UserProductSearch userProductSearch = new UserProductSearch(searchId, searchDate, allergenMatch, canConsume, createdAt, updatedAt, user, product);
+        CollectionReference userProductSearchCollection = firestore.collection("UserProductSearch");
+        userProductSearchCollection.document(searchId).set(userProductSearch); // Update to set the document with searchId
+    }
+
+    public void updateUserProductSearch(String searchId, UserProductSearch updatedUserProductSearch) {
+        DocumentReference docRef = firestore.collection("UserProductSearch").document(searchId);
+        docRef.set(updatedUserProductSearch);
+    }
+
+    public void deleteUserProductSearch(String searchId) {
+        firestore.collection("UserProductSearch").document(searchId).delete();
+    }
 }
+
+
+
+
 
