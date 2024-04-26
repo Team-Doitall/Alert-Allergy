@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function Settings() {
     const navigate = useNavigate();
@@ -13,11 +14,26 @@ function Settings() {
     const [visibility, setVisibility] = useState('private');
     const [language, setLanguage] = useState('English');
 
-    const handleSaveSettings = (event) => {
-        event.preventDefault();
-        console.log('Settings saved with:', { accountEmail, firstName, lastName, email, dateOfBirth, gender, notificationsEnabled, visibility, language });
-        alert('Settings saved successfully!');
-        navigate('/search');  // Navigate to dashboard or relevant page
+    const handleSaveSettings = async () => {
+        try {
+            //setLoading(true);
+           // setError('');
+            const result = await axios.post("http://localhost:8080/api/user-settings/", {
+                firstName,
+                lastName,
+                email,
+                dateOfBirth,
+                gender,
+                notificationsEnabled,
+                visibility,
+                language
+            });
+            // Handle success response
+            setLoading(false);
+        } catch (error) {
+            setError('Failed to save settings');
+            setLoading(false);
+        }
     };
 
     const styles = {

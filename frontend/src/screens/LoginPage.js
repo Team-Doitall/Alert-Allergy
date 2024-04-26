@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -8,7 +9,20 @@ function LoginPage() {
     const [error, setError] = useState('');
 
 
-    const handleLogin = (event) => {
+    const handleLogin = async () =>  {
+
+        try {
+            //setLoading(true);
+            setError('');
+            axios.get(`http://localhost:8080/api/user/`);
+            setUsername('');
+            setPassword('');
+        } catch (error) {
+            setError('Failed to fetch product details');
+            //setLoading(false);
+        }
+
+        /*
         event.preventDefault();
         if (username && password) {
             console.log('Logging in with:', username, password);
@@ -17,6 +31,7 @@ function LoginPage() {
         } else {
             setError('Both username and password are required');
         }
+         */
     };
 
     const handleSignUp = () => {

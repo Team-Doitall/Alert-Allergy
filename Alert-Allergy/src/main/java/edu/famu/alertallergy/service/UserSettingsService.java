@@ -4,8 +4,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import edu.famu.alertallergy.models.User.User;
 import edu.famu.alertallergy.models.UserSettings.UserSettings;
-import edu.famu.alertallergy.models.User.Users;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class UserSettingsService {
             Map<String, Object> displayPreferences = document.contains("displayPreferences") ? (Map<String, Object>) document.getData().get("displayPreferences") : null;
             Timestamp createdAt = document.contains("createdAt") ? document.getTimestamp("createdAt") : null;
             Timestamp updatedAt = document.contains("updatedAt") ? document.getTimestamp("updatedAt") : null;
-            Users user = document.contains("user") ? document.toObject(Users.class) : null;
+            User user = document.contains("user") ? document.toObject(User.class) : null;
             return new UserSettings(settingId, userId, language, notificationPreferences, displayPreferences, createdAt, updatedAt, user);
         }
         return null;
@@ -60,7 +60,7 @@ public class UserSettingsService {
     public UserSettings updateUserSettings(String settingId, UserSettings updatedSettings) throws ExecutionException, InterruptedException {
         DocumentReference docRef = firestore.collection("UserSettings").document(settingId);
         ApiFuture<WriteResult> future = docRef.set(updatedSettings);
-        future.get(); // Wait for the update operation to complete
+        future.get();
         return updatedSettings;
     }
 
@@ -69,8 +69,8 @@ public class UserSettingsService {
     }
     public UserSettings createUserSettings(UserSettings userSettings) {
         DocumentReference docRef = firestore.collection("UserSettings").document();
-        userSettings.setSettingId(docRef.getId()); // Set the settingId to the generated Firestore document ID
-        docRef.set(userSettings); // Add the userSettings to Firestore
+        userSettings.setSettingId(docRef.getId());
+        docRef.set(userSettings);
         return userSettings;
     }
 }

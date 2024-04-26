@@ -1,7 +1,7 @@
 package edu.famu.alertallergy.controller;
 
 import com.google.cloud.Timestamp;
-import com.google.firebase.remoteconfig.User;
+import edu.famu.alertallergy.models.User.User;
 import edu.famu.alertallergy.models.Product.Product;
 import edu.famu.alertallergy.models.UserProductSearch.UserProductSearch;
 import edu.famu.alertallergy.service.UserProductSearchService;
@@ -58,7 +58,7 @@ public class UserProductSearchController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ApiResponseFormat<>(true, "User product search created successfully", null, null));
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponseFormat<>(false, "Failed to create user product search", null, e.getMessage()));
         }
@@ -70,7 +70,7 @@ public class UserProductSearchController {
             userProductSearchService.updateUserProductSearch(searchId, userProductSearch);
             return ResponseEntity.ok(new ApiResponseFormat<>(true, "User product search updated successfully", null, null));
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponseFormat<>(false, "Failed to update user product search", null, e.getMessage()));
         }
@@ -82,7 +82,7 @@ public class UserProductSearchController {
             userProductSearchService.deleteUserProductSearch(searchId);
             return ResponseEntity.ok(new ApiResponseFormat<>(true, "User product search deleted successfully", null, null));
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponseFormat<>(false, "Failed to delete user product search", null, e.getMessage()));
         }

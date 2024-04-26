@@ -1,12 +1,9 @@
 package edu.famu.alertallergy.models.Product;
 
-import com.google.cloud.firestore.annotation.DocumentId;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 

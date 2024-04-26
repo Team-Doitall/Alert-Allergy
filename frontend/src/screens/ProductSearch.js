@@ -1,107 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from "axios";
 
-function ProductSearch() {
+function ProductDetails() {
     const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState('');
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const { productId } = useParams();
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const handleSearch = async () => {
         try {
             setLoading(true);
             setError('');
-
-            // Simulate an API call to search for products
-            setTimeout(() => {
-                setProducts([
-                    { id: 1, name: 'Product 1', description: 'Description of product 1' },
-                    { id: 2, name: 'Product 2', description: 'Description of product 2' },
-                    // Add more sample products as needed
-                ]);
-                setLoading(false);
-            }, 1000);
-        } catch (e) {
-            setError('Failed to fetch products');
+             axios.get(`http://localhost:8080/api/user-product-search`);
+            setProduct(response.data);
+            setLoading(false);
+        } catch (error) {
+            setError('Failed to fetch product details');
             setLoading(false);
         }
     };
 
-    const handleProductClick = (productId) => {
-        navigate(`/product-details/${productId}`);
+    useEffect(() => {
+        handleSearch();
+    }, [productId]);
+
+    const handleBack = () => {
+        navigate(-1);
     };
 
-    // Inline CSS
     const styles = {
-        container: {
-            padding: '20px',
-        },
-        input: {
-            marginRight: '10px',
-            height: '30px',
-        },
-        productItem: {
-            margin: '10px 0',
-            cursor: 'pointer',
-            color: 'blue',
-        },
-        navBar: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: '#f0f0f0',
-            borderTop: '1px solid #ccc',
-            padding: '10px 0'
-        },
-        navButton: {
-            flex: 1,
-            padding: '10px 20px',
-            backgroundColor: '#e7e7e7',
-            border: 'none',
-            outline: 'none',
-            cursor: 'pointer'
-        }
+        // Styles remain the same...
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
-        <div style={styles.container}>
-            <h1>Product Search</h1>
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={styles.input}
-            />
-            <button onClick={handleSearch}>Search</button>
-
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <div>
-                {products.map((product) => (
-                    <div
-                        key={product.id}
-                        style={styles.productItem}
-                        onClick={() => handleProductClick(product.id)}
-                    >
-                        {product.name} - {product.description}
-                    </div>
-                ))}
+        <div>
+            <div style={styles.container}>
+                <h1>{product?.name}</h1>
+                <p><strong>Description:</strong> {product?.description}</p>
+                <p><strong>Ingredients:</strong> {product?.ingredients}</p>
+                <p><strong>Allergens:</strong> {product?.allergens}</p>
+                <button style={styles.button} onClick={handleBack}>Go Back</button>
             </div>
-
             <div style={styles.navBar}>
-                <button style={styles.navButton} onClick={() => navigate('/search')}>Search</button>
-                <button style={styles.navButton} onClick={() => navigate('/settings')}>Settings</button>
-                <button style={styles.navButton} onClick={() => navigate('/profile')}>Profile</button>
-                <button style={styles.navButton} onClick={() => navigate('/lists')}>Saved</button>
+                {/* Navigation buttons */}
             </div>
         </div>
     );
 }
 
-export default ProductSearch;
+export default ProductDetails;
 

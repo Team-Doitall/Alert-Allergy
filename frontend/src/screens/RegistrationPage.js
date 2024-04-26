@@ -10,6 +10,8 @@ function RegistrationPage() {
     const [error, setError] = useState('');
 
     const handleRegistration = (event) => {
+
+
         event.preventDefault();
         if (!email || !username || !password || !confirmPassword) {
             setError('All fields are required');
@@ -25,6 +27,8 @@ function RegistrationPage() {
         setError('');
         alert('Registration successful! Redirecting to login page.');
         navigate('/login');  // Redirects user to the login page
+
+
     };
 
     const styles = {

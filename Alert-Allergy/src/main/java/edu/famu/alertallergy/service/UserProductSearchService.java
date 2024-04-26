@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.remoteconfig.User;
+import edu.famu.alertallergy.models.User.User;
 import edu.famu.alertallergy.models.Product.Product;
 import edu.famu.alertallergy.models.UserProductSearch.UserProductSearch;
 import org.springframework.stereotype.Service;
@@ -22,12 +22,32 @@ public class UserProductSearchService {
         this.firestore = FirestoreClient.getFirestore();
     }
 
+
     public UserProductSearch documentSnapshotToUserProductSearch(DocumentSnapshot document) {
         if (document.exists()) {
-            return document.toObject(UserProductSearch.class);
+            String searchId = document.getId();
+            Timestamp searchDate = document.contains("searchDate") ? document.getTimestamp("searchDate") : null;
+            ArrayList<String> allergenMatch = document.contains("allergenMatch") ? (ArrayList<String>) document.get("allergenMatch") : new ArrayList<>();
+            boolean canConsume = document.contains("canConsume") && document.getBoolean("canConsume");
+            Timestamp createdAt = document.contains("createdAt") ? document.getTimestamp("createdAt") : null;
+            Timestamp updatedAt = document.contains("updatedAt") ? document.getTimestamp("updatedAt") : null;
+            User user = null;
+            Product product = null;
+
+            if(document.contains("user"))
+            {
+                user = document.toObject(User.class);
+            }
+
+            if (document.contains("product")) {
+                product = document.toObject(Product.class);
+            }
+            return new UserProductSearch(searchId, searchDate, allergenMatch, canConsume, createdAt, updatedAt, user, product);
         }
         return null;
     }
+
+
 
     public List<UserProductSearch> getAllUserProductSearches() throws ExecutionException, InterruptedException {
         CollectionReference userProductSearchCollection = firestore.collection("UserProductSearch");

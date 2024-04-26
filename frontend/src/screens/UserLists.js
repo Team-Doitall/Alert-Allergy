@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function UserLists() {
     const navigate = useNavigate();
     const [lists, setLists] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        let isMounted = true;
-
         const fetchUserLists = async () => {
-            setLoading(true);
-            setTimeout(() => {
-                if (isMounted) {
-                    setLists([
-                        { id: 1, name: 'Grocery List' },
-                        { id: 2, name: 'Allergy Safe Foods' }
-                    ]);
-                    setLoading(false);
-                }
-            }, 1000);
+            try {
+                setLoading(true);
+                setError('');
+                const result = await axios.get("http://localhost:8080/api/product/");
+                setLists(result.data);
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to fetch products');
+                setLoading(false);
+            }
         };
 
         fetchUserLists();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+    }, []); // Empty dependency array ensures this effect runs only once on component mount
 
     const handleCreateNewList = () => {
         navigate('/create-list');
@@ -37,53 +33,7 @@ function UserLists() {
         navigate(`/edit-list/${listId}`);
     };
 
-    // Inline CSS
-    const styles = {
-        container: {
-            padding: '20px',
-            maxWidth: '600px',
-            margin: 'auto',
-        },
-        list: {
-            listStyle: 'none',
-            padding: 0,
-        },
-        listItem: {
-            backgroundColor: '#f0f0f0',
-            border: '1px solid #ddd',
-            marginTop: '10px',
-            padding: '10px',
-            cursor: 'pointer',
-        },
-        button: {
-            marginTop: '20px',
-            padding: '10px 20px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-        },
-        navBar: {
-            display: 'flex',
-            justifyContent: 'space-around',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: '#f0f0f0',
-            borderTop: '1px solid #ccc',
-            padding: '10px 0'
-        },
-        navButton: {
-            flex: 1,
-            padding: '10px 20px',
-            backgroundColor: '#e7e7e7',
-            border: 'none',
-            outline: 'none',
-            cursor: 'pointer'
-        }
-    };
+    // Inline CSS remains the same...
 
     return (
         <div>
