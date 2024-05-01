@@ -19,7 +19,7 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/{userId}")
     public ResponseEntity<ApiResponseFormat<User>> createUser(@RequestBody User user) {
         try {
             User createdUser = usersService.createUser(user);
@@ -42,8 +42,8 @@ public class UsersController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseFormat<User>> getUserById(@PathVariable(name = "id") String userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponseFormat<User>> getUserById(@PathVariable String userId) {
         try {
             User user = usersService.getUserById(userId);
             if (user != null) {

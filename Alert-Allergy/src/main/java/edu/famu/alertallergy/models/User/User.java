@@ -1,6 +1,7 @@
 package edu.famu.alertallergy.models.User;
 
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,6 @@ import java.util.Date;
         protected String password;
         protected String email;
         protected ArrayList<String> allergies;
-        protected Date createdAt;
-        protected Date updatedAt;
+        protected Timestamp createdAt;
+        protected Timestamp updatedAt;
     }

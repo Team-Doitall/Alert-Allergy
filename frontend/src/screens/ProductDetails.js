@@ -13,23 +13,24 @@ function ProductDetails() {
         try {
             setLoading(true);
             setError('');
-            axios.get("http://localhost:8080/api/product/{id}").then((result) => {
-                setProduct(result.data)
-                setLoading(false);
-            }).catch((e) => {
-                console.log(e)
-            })
-
-        } catch (e) {
-            setError('Failed to fetch products');
+            const response = await axios.get("http://localhost:8080/api/product/");
+            setProduct(response.data);
+            setLoading(false);
+        } catch (error) {
+            setError('Failed to see Details');
             setLoading(false);
         }
     };
 
-
     useEffect(() => {
-        handleDetails(productId);
+        handleDetails();
     }, [productId]);
+
+    const handleBack = () => {
+        navigate(-1);
+    };
+
+    /*
 
     const fetchProductDetails = async (id) => {
         try {
@@ -50,48 +51,26 @@ function ProductDetails() {
             setError('Failed to fetch product details');
             setLoading(false);
         }
+     */
 
 
-        const handleBack = () => {
-            navigate(-1);
-        };
-
-        const styles = {
-            container: {
-                margin: '20px',
-                padding: '20px',
-                border: '1px solid #ddd',
-                borderRadius: '5px'
-            },
-            button: {
-                margin: '10px 0',
-                padding: '10px 20px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-            },
-            navBar: {
-                display: 'flex',
-                justifyContent: 'space-around',
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                backgroundColor: '#f0f0f0',
-                borderTop: '1px solid #ccc',
-                padding: '10px 0'
-            },
-            navButton: {
-                flex: 1,
-                padding: '10px 20px',
-                backgroundColor: '#e7e7e7',
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer'
-            }
-        };
+    const styles = {
+        container: {
+            margin: '0 auto',
+            width: '80%',
+            textAlign: 'center',
+            padding: '20px',
+        },
+        button: {
+            marginTop: '20px',
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+        },
+    };
 
         if (loading) {
             return <div>Loading...</div>;
@@ -118,9 +97,10 @@ function ProductDetails() {
                 </div>
             </div>
         );
-    }
 }
 
     export default ProductDetails;
+
+
 
 

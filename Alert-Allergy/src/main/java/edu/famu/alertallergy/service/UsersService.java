@@ -1,11 +1,14 @@
 package edu.famu.alertallergy.service;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import edu.famu.alertallergy.models.Admin;
 import edu.famu.alertallergy.models.User.User;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -18,10 +21,22 @@ public class UsersService {
     }
 
     public User documentSnapshotToUser(DocumentSnapshot document) {
-        if (document.exists()) {
-            return document.toObject(User.class);
+        User user = null;
+        if (document.exists())
+        {
+            String id = document.getId();
+            String username = document.getString("username");
+            String password = document.getString("password");
+            String email = document.getString("email");
+            ArrayList<String> allergies = (ArrayList<String>) document.get("allergies");
+
+
+            Timestamp createdAt = document.getTimestamp("createdAt");
+            Timestamp updatedAt = document.getTimestamp("updatedAt");
+
+            return new User(id, username, password, email, allergies, createdAt, updatedAt);
         }
-        return null;
+        return user;
     }
 
     public List<User> getAllUsers() throws ExecutionException, InterruptedException {
@@ -38,7 +53,7 @@ public class UsersService {
     }
 
     public User getUserById(String userId) throws ExecutionException, InterruptedException {
-        CollectionReference userCollection = firestore.collection("Users");
+        CollectionReference userCollection = firestore.collection("User");
         ApiFuture<DocumentSnapshot> future = userCollection.document(userId).get();
         DocumentSnapshot document = future.get();
         return documentSnapshotToUser(document);

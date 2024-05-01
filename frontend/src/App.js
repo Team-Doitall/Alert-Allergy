@@ -7,10 +7,12 @@ import ProductDetails from './screens/ProductDetails';
 import UserLists from './screens/UserLists';
 import CreateList from './screens/CreateList';
 import Settings from './screens/Settings';
+import UserProfile from "./screens/UserProfile";
 
 function App() {
 
     return (
+       //<AuthProvider>
         <Router>
             <Routes>
                 <Route path="/" element={<LoginPage />} />
@@ -20,9 +22,11 @@ function App() {
                 <Route path="/lists" element={<UserLists />} />
                 <Route path="/create-list" element={<CreateList />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/profile" element={<UserProfile/>} />
                 {/* Add other routes as needed */}
             </Routes>
         </Router>
+       // </AuthProvider>
     );
 }
 

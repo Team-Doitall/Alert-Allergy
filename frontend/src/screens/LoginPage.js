@@ -1,86 +1,77 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import { auth } from './firebaseConfig'; // Import your Firebase auth instance
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 function LoginPage() {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-
-    const handleLogin = async () =>  {
-
+    const handleLogin = async (e) => {
+        e.preventDefault();
         try {
-            //setLoading(true);
-            setError('');
-            axios.get(`http://localhost:8080/api/user/`);
-            setUsername('');
-            setPassword('');
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            // Navigate to the search page upon successful login
+            navigate('/search');
+            console.log('Logged in user:', user);
         } catch (error) {
-            setError('Failed to fetch product details');
-            //setLoading(false);
+            setError('Failed to login. Please check your credentials.');
+            console.error('Login error:', error.message); // Log the Firebase error message
         }
-
-        /*
-        event.preventDefault();
-        if (username && password) {
-            console.log('Logging in with:', username, password);
-            // Correct usage of navigate to go to the search page
-            navigate('/search'); // Navigate to search page or dashboard
-        } else {
-            setError('Both username and password are required');
-        }
-         */
     };
+
+
 
     const handleSignUp = () => {
-        navigate('/register'); // Navigate to the registration page
+        navigate('/register');
     };
 
-    // Inline CSS
-    const styles = {
-        container: {
-            margin: '0 auto',
-            width: '300px',
-            textAlign: 'center',
-            border: '1px solid #ddd',
-            padding: '20px',
-            borderRadius: '5px',
-            marginTop: '100px'
-        },
-        input: {
-            marginBottom: '10px',
-            width: '100%',
-            height: '40px',
-            padding: '0 10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc'
-        },
-        button: {
-            width: '100%',
-            height: '40px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginBottom: '10px', // Added margin-bottom for spacing
-        },
-        signUpButton: {
-            width: '100%',
-            height: '40px',
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-        },
-        error: {
-            color: 'red',
-            marginBottom: '10px'
-        }
-    };
+         // Inline CSS
+         const styles = {
+             container: {
+                 margin: '0 auto',
+                 width: '300px',
+                 textAlign: 'center',
+                 border: '1px solid #ddd',
+                 padding: '20px',
+                 borderRadius: '5px',
+                 marginTop: '100px'
+             },
+             input: {
+                 marginBottom: '10px',
+                 width: '100%',
+                 height: '40px',
+                 padding: '0 10px',
+                 borderRadius: '5px',
+                 border: '1px solid #ccc'
+             },
+             button: {
+                 width: '100%',
+                 height: '40px',
+                 backgroundColor: '#007bff',
+                 color: 'white',
+                 border: 'none',
+                 borderRadius: '5px',
+                 cursor: 'pointer',
+                 marginBottom: '10px', // Added margin-bottom for spacing
+             },
+             signUpButton: {
+                 width: '100%',
+                 height: '40px',
+                 backgroundColor: '#28a745',
+                 color: 'white',
+                 border: 'none',
+                 borderRadius: '5px',
+                 cursor: 'pointer'
+             },
+             error: {
+                 color: 'red',
+                 marginBottom: '10px'
+             }
+         };
 
     return (
         <div style={styles.container}>
@@ -88,10 +79,10 @@ function LoginPage() {
             {error && <p style={styles.error}>{error}</p>}
             <form onSubmit={handleLogin}>
                 <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     style={styles.input}
                 />
                 <input
@@ -109,3 +100,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
+

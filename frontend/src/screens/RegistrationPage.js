@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -8,27 +11,44 @@ function RegistrationPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-
-    const handleRegistration = (event) => {
-
-
-        event.preventDefault();
-        if (!email || !username || !password || !confirmPassword) {
-            setError('All fields are required');
-            return;
-        }
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-
-        console.log('Registering:', email, username, password);
-        // Simulate successful registration
-        setError('');
-        alert('Registration successful! Redirecting to login page.');
-        navigate('/login');  // Redirects user to the login page
+    const [loading, setLoading] = useState(true);
 
 
+    const handleRegistration = async (e) => {
+        e.preventDefault();
+        const auth = getAuth()
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+
+                try {
+                    if (!email || !username || !password || !confirmPassword) {
+                        throw new Error('All fields are required');
+                    }
+                    if (password !== confirmPassword) {
+                        throw new Error('Passwords do not match');
+                    }
+                    setLoading(true);
+                    setError('');
+
+
+                    console.log('Registering:', email, username, password);
+
+                    let data = {
+
+                    }
+                    const response = await axios.post(`http://localhost:8080/api/user/`,data );
+
+                    setError('');
+                    alert('Registration successful! Redirecting to login page.');
+                    navigate('/');
+                } catch (error) {
+                    setLoading(false);
+                    setError(error.message);
+                    console.error('Registration error:', error.message);
+                }
+            })
     };
 
     const styles = {
