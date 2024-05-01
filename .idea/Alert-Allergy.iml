@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+<module version="4">
+=======
 <module type="JAVA_MODULE" version="4">
+>>>>>>> 17b401f9a5678ab57429966624e64b437c4559a6
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" />
   </component>

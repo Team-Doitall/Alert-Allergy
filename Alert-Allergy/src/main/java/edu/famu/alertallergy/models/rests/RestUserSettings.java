@@ -1,40 +1,15 @@
-package edu.famu.alertallergy.models.UserSettings;
+package edu.famu.alertallergy.models.rests;
 
-import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.annotations.Nullable;
+import edu.famu.alertallergy.models.Utility;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Map;
-
 
 @Data
 @NoArgsConstructor
-public class RestUserSettings extends AUserSettings {
-    private DocumentReference user;
-
-    public RestUserSettings(@Nullable String settingId, String language, Map<String,Object> notificationPreferences, Map<String, Object> displayPreferences, Timestamp createdAt, Timestamp updatedAt, DocumentReference user) {
-        super(settingId, language, notificationPreferences, displayPreferences, createdAt, updatedAt);
-        this.user = user;
-    }
-
-    public void setUser(String userRef) {
-
-      Firestore Utility = FirestoreClient.getFirestore();
-      this.user = Utility.collection("User").document(userRef);
-    }
-
-
-
-
-
-
-
-
-
-    /*
+@AllArgsConstructor
+public class RestUserSettings {
     String objectId;
     DocumentReference user,language,notificationPreferences,displayPreferences,createdAt,updatedAt;
     public void setUser(String user) {
@@ -61,6 +36,4 @@ public class RestUserSettings extends AUserSettings {
         // Perform Firebase Firestore query to retrieve DocumentReference for createBy
         this.updatedAt = Utility.retrieveDocumentReference("UserSettings", updatedAt);
     }
-
-     */
 }
